@@ -61,7 +61,12 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
         }
+
+        this.startingTime = this.time.now/1000;
+        this.timer = game.settings.gameTimer/1000 + this.startingTime;
+
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.timerRight = this.add.text(game.config.width - borderUISize*4 - borderPadding, borderUISize + borderPadding*2, this.timer, scoreConfig);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -76,6 +81,7 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        console.log(this.timer);
         // check key input for restart / menu
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -107,6 +113,19 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+
+        if(this.checkTimer())
+        {
+            this.timerRight.text = Math.round(this.timer - this.time.now/1000);
+        }
+    }
+
+    checkTimer() {
+        if (game.settings.gameTimer/1000 > this.time.now/1000 - this.startingTime)
+        return true;
+        else {
+            false;
+        }
     }
 
     checkCollision(rocket, ship) {
@@ -128,6 +147,7 @@ class Play extends Phaser.Scene {
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
+            ship.dReset();                        // randomizes spawn direction
             ship.reset();                         // reset ship position
             ship.alpha = 1;                       // make ship visible again
             boom.destroy();                       // remove explosion sprite
