@@ -12,15 +12,6 @@ class Rocket extends Phaser.GameObjects.Sprite {
     
 
     update() {
-        // Arrow Key Movement
-        //if(!this.isFiring) {
-        //    if(keyLEFT.isDown && this.x >= borderUISize + this.width) {
-        //        this.x -= this.moveSpeed;
-        //    } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width) {
-        //        this.x += this.moveSpeed;
-        //    }
-        //}
-
         // Mouse Control Aim
         if(!this.isFiring) {
             this.angle = (Phaser.Math.Angle.Between(this.x, this.y, game.input.mousePointer.x,game.input.mousePointer.y) * 180/Math.PI) + 90;
