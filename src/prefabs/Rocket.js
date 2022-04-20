@@ -27,7 +27,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         }
 
         // fire button
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
+        if(game.input.mousePointer.isDown && !this.isFiring) {
             this.angleSave = Math.abs((Phaser.Math.Angle.Between(this.x, this.y, game.input.mousePointer.x,game.input.mousePointer.y)));
             this.isFiring = true;
             this.sfxRocket.play();

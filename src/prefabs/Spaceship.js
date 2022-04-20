@@ -9,6 +9,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
     }
 
     update() {
+
         // move spaceship left
         if(this.direction) {
             this.x -= this.moveSpeed;
@@ -41,6 +42,15 @@ class Spaceship extends Phaser.GameObjects.Sprite {
 
     // direction reset
     dReset() {
+        this.lastd = this.direction;
         this.direction = Math.random() < 0.5;
+    }
+
+    dcheck() {
+        if(this.lastd != this.direction) {
+            return false;
+        }else {
+            true;
+        }
     }
 }
